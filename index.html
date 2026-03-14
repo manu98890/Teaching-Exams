@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ගුරු විභාගය GK - මනු</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hidden { display: none !important; }
+        .timer-box { font-size: 24px; font-weight: bold; color: #e74c3c; text-align: center; margin: 10px; }
+        #welcome-screen { text-align: center; padding: 50px 20px; }
+        button { padding: 15px 25px; cursor: pointer; font-size: 16px; border-radius: 8px; border: none; margin: 10px; }
+        .primary { background: #2ecc71; color: white; }
+        .secondary { background: #3498db; color: white; }
+        .exam-btn { background: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <h1>Graduate Teaching Exam Prep</h1>
+        <p>ප්‍රශ්න 620 ක එකතුවකි.</p>
+        <button onclick="startPractice()" class="secondary">සියල්ල අභ්‍යාස කරන්න</button>
+        <button onclick="startExam()" class="exam-btn">විභාග මාදිලිය (ප්‍රශ්න 50)</button>
+    </div>
+
+    <div id="quiz-container-main" class="hidden">
+        <header id="quiz-header">
+            <h1>සාමාන්‍ය දැනීම (GK)</h1>
+            <div id="exam-header" class="hidden">
+                <div class="timer-box">ඉතිරි කාලය: <span id="timer">30:00</span></div>
+            </div>
+            <div id="progress-container" onclick="jumpToQuestion(event)" style="cursor: pointer; background: #ddd; height: 15px; border-radius: 5px; position: relative; margin: 10px 0; width: 100%;">
+        <div id="progress" style="width: 0%; height: 100%; background: #2ecc71; border-radius: 5px; transition: width 0.2s;"></div>
+    </div>
+            <p>ප්‍රශ්නය: <span id="current-q">1</span> / <span id="total-q-label">1500</span></p>
+        </header>
+
+        <main id="quiz-ui">
+            <h2 id="question">ප්‍රශ්නය මෙතන දිස්වේවි...</h2>
+            <div id="options" class="options-grid"></div>
+        </main>
+
+        <footer id="quiz-footer">
+           <div class="nav-buttons">
+    <button id="prev-btn" class="secondary">ආපස්සට</button>
+    
+    <button onclick="goHome()" style="background: #7f8c8d; color: white;">මුලට (Home)</button>
+    
+    <button id="skip-btn" class="secondary">මඟ හරින්න</button>
+    <button id="next-btn" class="primary hidden">මීළඟ ප්‍රශ්නය</button>
+</div>
+        </footer>
+    </div>
+
+    <div id="result-screen" class="hidden" style="text-align: center;">
+    <button onclick="goHome()" class="primary">අලුත් වටයක් අරඹන්න</button>
+
+        <h2>විභාග ප්‍රතිඵල සාරාංශය</h2>
+        <div class="score-card">
+            <p>මුළු ප්‍රශ්න සංඛ්‍යාව: <span id="res-total">0</span></p>
+            <p style="color: green;">නිවැරදි පිළිතුරු: <span id="correct-count">0</span></p>
+            <p style="color: red;">වැරදි පිළිතුරු: <span id="wrong-count">0</span></p>
+            <p style="color: orange;">මඟ හැරී ඇති ප්‍රශ්න: <span id="skipped-count">0</span></p>
+        </div>
+        <button onclick="location.reload()" class="secondary">නැවත මුල සිට</button>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

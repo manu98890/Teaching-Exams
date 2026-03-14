@@ -1,0 +1,149 @@
+:root {
+    --primary-grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success: #00b894;
+    --error: #ff7675;
+    --warning: #f1c40f;
+    --dark: #2d3436;
+    --bg-light: #f0f2f5;
+    --white: #ffffff;
+    --shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-light);
+    margin: 0;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* Container එක ලස්සන කිරීම */
+.quiz-container, #welcome-screen, #result-screen, #quiz-container-main {
+    background: var(--white);
+    width: 100%;
+    max-width: 600px;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 24px;
+    color: var(--dark);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Progress Bar එක (Seekable Container) */
+#progress-container {
+    background: #dfe6e9;
+    height: 12px;
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+#progress {
+    background: var(--primary-grad);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Options (පිළිතුරු බොත්තම්) */
+.options-grid {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.option {
+    padding: 18px;
+    background: #fff;
+    border: 2px solid #edf2f7;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.option:active { transform: scale(0.98); }
+
+.option:hover {
+    border-color: #764ba2;
+    background: #f8faff;
+}
+
+/* හරි වැරදි පාටවල් */
+.option.correct { background: var(--success) !important; color: white; border-color: var(--success); }
+.option.wrong { background: var(--error) !important; color: white; border-color: var(--error); }
+
+/* බොත්තම් (Buttons) */
+button {
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.primary { background: var(--primary-grad); color: white; }
+.secondary { background: #636e72; color: white; }
+.exam-btn { background: linear-gradient(135deg, #ff7675 0%, #d63031 100%); color: white; }
+
+/* Navigation (Bottom Buttons) */
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.nav-buttons button {
+    flex: 1;
+    padding: 12px 5px;
+    font-size: 14px;
+}
+
+/* Timer Box */
+.timer-box {
+    background: #ffeaa7;
+    padding: 10px;
+    border-radius: 10px;
+    color: #d35400;
+    font-size: 18px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+/* Score Card */
+.score-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+}
+
+.score-item {
+    font-size: 18px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    body { padding: 10px; }
+    .quiz-container { padding: 15px; }
+    h1 { font-size: 20px; }
+    .option { padding: 15px; font-size: 15px; }
+}
+
+.hidden { display: none !important; }

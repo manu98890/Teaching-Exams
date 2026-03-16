@@ -705,7 +705,7 @@ const questions = [
     },
     {
         q: "අධ්‍යාපන අමාත්‍යාංශයේ 2024 වාර්තාවට අනුව 'ගුරු මාරුවීම්' සඳහා ක්‍රියාත්මක වන නව මාර්ගගත ක්‍රමය (Online System) කුමක්ද?",
-        options: ["EMIS", "TEACAS", "Transfer Portal", "නොමැත"],
+        options: ["NEMIS", "TEACAS", "Transfer Portal", "නොමැත"],
         correct: 0
     },
     {

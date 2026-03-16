@@ -3150,7 +3150,6 @@ const questions = [
 
 
 
-
 let currentIdx = 0;
 let userAnswers = [];
 let quizQuestions = [];
@@ -3198,18 +3197,16 @@ function initQuiz() {
     q.options.forEach((opt, i) => {
         const btn = document.createElement("div");
         btn.className = "option";
+        btn.style.padding = "10px";
+        btn.style.margin = "5px";
+        btn.style.border = "1px solid #ccc";
+        btn.style.cursor = "pointer";
         btn.innerText = opt;
 
-        // පිළිතුරක් තෝරාගෙන තිබේ නම් පාට කරන්න
         if (userAnswers[currentIdx] !== null) {
             btn.style.pointerEvents = "none";
-            if (i === q.correct) {
-                btn.style.backgroundColor = "#2ecc71"; // හරි නම් කොළ පාට
-                btn.style.color = "white";
-            } else if (i === userAnswers[currentIdx]) {
-                btn.style.backgroundColor = "#e74c3c"; // වැරදි නම් රතු පාට
-                btn.style.color = "white";
-            }
+            if (i === q.correct) btn.style.backgroundColor = "#2ecc71"; 
+            if (i === userAnswers[currentIdx] && i !== q.correct) btn.style.backgroundColor = "#e74c3c"; 
         }
 
         btn.onclick = () => selectOption(i);
@@ -3218,11 +3215,13 @@ function initQuiz() {
 
     document.getElementById("current-q").innerText = currentIdx + 1;
     document.getElementById("total-q-label").innerText = quizQuestions.length;
-    document.getElementById("progress").style.width = `${((currentIdx + 1) / quizQuestions.length) * 100}%`;
+    
+    // Progress Bar එක Update කරන කොටස
+    const progressPerc = ((currentIdx + 1) / quizQuestions.length) * 100;
+    document.getElementById("progress").style.width = progressPerc + "%";
     
     document.getElementById("prev-btn").style.visibility = (currentIdx === 0) ? "hidden" : "visible";
     
-    // ඊළඟ බොත්තම පෙන්වීම (Exam mode එකේදී හැමතිස්සෙම පේනවා, Practice එකේදී පිළිතුරක් දුන්නම පේනවා)
     if (isExamMode || userAnswers[currentIdx] !== null) {
         document.getElementById("next-btn").classList.remove("hidden");
     } else {
@@ -3278,14 +3277,28 @@ function goHome() {
     document.getElementById("welcome-screen").classList.remove("hidden");
 }
 
-// Button Click Events
+function jumpToQuestion(e) {
+    if (isExamMode) {
+        alert("විභාග මාදිලියේදී ප්‍රශ්න අතර පනින්න බැහැ.");
+        return;
+    }
+    const container = document.getElementById("progress-container");
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left; 
+    const width = rect.width;
+    let targetIdx = Math.floor((x / width) * quizQuestions.length);
+    if (targetIdx >= quizQuestions.length) targetIdx = quizQuestions.length - 1;
+    if (targetIdx < 0) targetIdx = 0;
+    currentIdx = targetIdx;
+    initQuiz(); 
+}
+
+// Button Events
 document.getElementById("next-btn").onclick = () => {
     if (currentIdx < quizQuestions.length - 1) {
         currentIdx++;
         initQuiz();
-    } else {
-        showResults();
-    }
+    } else showResults();
 };
 
 document.getElementById("prev-btn").onclick = () => {
@@ -3299,7 +3312,5 @@ document.getElementById("skip-btn").onclick = () => {
     if (currentIdx < quizQuestions.length - 1) {
         currentIdx++;
         initQuiz();
-    } else {
-        showResults();
-    }
+    } else showResults();
 };

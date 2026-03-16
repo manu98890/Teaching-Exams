@@ -3156,6 +3156,7 @@ let quizQuestions = [];
 let timerInterval;
 let isExamMode = false;
 
+// ප්‍රශ්න කලවම් කිරීම
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -3183,8 +3184,8 @@ function startPractice() {
 function setupQuizUI() {
     document.getElementById("welcome-screen").classList.add("hidden");
     document.getElementById("quiz-container-main").classList.remove("hidden");
-    currentIdx = 0;
     userAnswers = new Array(quizQuestions.length).fill(null);
+    currentIdx = 0;
     initQuiz();
 }
 
@@ -3197,29 +3198,28 @@ function initQuiz() {
     q.options.forEach((opt, i) => {
         const btn = document.createElement("div");
         btn.className = "option";
-        btn.style.padding = "10px";
-        btn.style.margin = "5px";
-        btn.style.border = "1px solid #ccc";
-        btn.style.cursor = "pointer";
         btn.innerText = opt;
 
+        // පිළිතුරක් දී ඇත්නම් පාට වෙනස් කිරීම (ඔබේ CSS Classes පාවිච්චි කර ඇත)
         if (userAnswers[currentIdx] !== null) {
             btn.style.pointerEvents = "none";
-            if (i === q.correct) btn.style.backgroundColor = "#2ecc71"; 
-            if (i === userAnswers[currentIdx] && i !== q.correct) btn.style.backgroundColor = "#e74c3c"; 
+            if (i === q.correct) btn.classList.add("correct");
+            if (i === userAnswers[currentIdx] && i !== q.correct) btn.classList.add("wrong");
         }
 
         btn.onclick = () => selectOption(i);
         optDiv.appendChild(btn);
     });
 
+    // ප්‍රශ්න අංක Update කිරීම
     document.getElementById("current-q").innerText = currentIdx + 1;
     document.getElementById("total-q-label").innerText = quizQuestions.length;
     
-    // Progress Bar එක Update කරන කොටස
+    // Progress Bar එක Update කිරීම
     const progressPerc = ((currentIdx + 1) / quizQuestions.length) * 100;
     document.getElementById("progress").style.width = progressPerc + "%";
     
+    // බොත්තම් පෙන්වීම/සැඟවීම
     document.getElementById("prev-btn").style.visibility = (currentIdx === 0) ? "hidden" : "visible";
     
     if (isExamMode || userAnswers[currentIdx] !== null) {
@@ -3268,9 +3268,7 @@ function showResults() {
 }
 
 function goHome() {
-    if (isExamMode) {
-        if (!confirm("විභාගයෙන් ඉවත් වෙන්නද?")) return;
-    }
+    if (isExamMode && !confirm("විභාගයෙන් ඉවත් වෙන්නද?")) return;
     clearInterval(timerInterval);
     document.getElementById("quiz-container-main").classList.add("hidden");
     document.getElementById("result-screen").classList.add("hidden");
@@ -3278,22 +3276,16 @@ function goHome() {
 }
 
 function jumpToQuestion(e) {
-    if (isExamMode) {
-        alert("විභාග මාදිලියේදී ප්‍රශ්න අතර පනින්න බැහැ.");
-        return;
-    }
+    if (isExamMode) return;
     const container = document.getElementById("progress-container");
     const rect = container.getBoundingClientRect();
     const x = e.clientX - rect.left; 
-    const width = rect.width;
-    let targetIdx = Math.floor((x / width) * quizQuestions.length);
-    if (targetIdx >= quizQuestions.length) targetIdx = quizQuestions.length - 1;
-    if (targetIdx < 0) targetIdx = 0;
-    currentIdx = targetIdx;
-    initQuiz(); 
+    let targetIdx = Math.floor((x / rect.width) * quizQuestions.length);
+    currentIdx = Math.max(0, Math.min(targetIdx, quizQuestions.length - 1));
+    initQuiz();
 }
 
-// Button Events
+// බොත්තම් ක්‍රියාත්මක කිරීම
 document.getElementById("next-btn").onclick = () => {
     if (currentIdx < quizQuestions.length - 1) {
         currentIdx++;
